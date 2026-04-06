@@ -56,6 +56,11 @@ L_SYS_DIRTY="변경사항 있음"
 # ── activity ──
 L_ACTIVITY_TITLE="활동"
 L_ACTIVITY_WEEKS="%d주"
+L_ACTIVITY_STREAK="연속"
+L_ACTIVITY_DAYS="일째"
+L_ACTIVITY_TODAY="오늘"
+L_ACTIVITY_EMPTY="아직 활동 기록이 없어요"
+L_ACTIVITY_HINT="터미널을 사용하면 자동으로 기록돼요"
 
 # ── onboarding ──
 L_ONBOARD_WELCOME="반가워요! Good Morning Terminal을 설정할게요."

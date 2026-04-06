@@ -7,8 +7,8 @@ _GMT_PROJECTS_CACHE="${GMT_DIR}/cache/recent_projects.txt"
 # ── Relative time formatting (pure bash arithmetic) ──
 _gmt_relative_time() {
   local ts="$1"
-  local now
-  now=$(_gmt_now)
+  local now=""
+  now="$(_gmt_now 2>/dev/null)"
   local diff=$(( now - ts ))
 
   if (( diff < 60 )); then
@@ -34,30 +34,33 @@ _gmt_build_project_list() {
 
   local count="${GMT_PROJECTS_COUNT:-5}"
 
-  # Read log in reverse (most recent first), deduplicate by path
-  # Output: timestamp|path (deduplicated, latest timestamp wins)
-  local -a seen_paths=()
-  local -a result_lines=()
+  # Read log in reverse (most recent first), deduplicate by proj_path
+  local reversed=""
+  reversed="$(tail -r "$_GMT_PROJECTS_LOG" 2>/dev/null || tac "$_GMT_PROJECTS_LOG" 2>/dev/null)"
 
-  while IFS='|' read -r ts path; do
-    [[ -z "$path" ]] && continue
-    # Skip if already seen
-    local found=false
-    for sp in "${seen_paths[@]}"; do
-      if [[ "$sp" == "$path" ]]; then
+  local -a seen_proj_paths=()
+  local -a result_lines=()
+  local ts="" proj_path="" found=""
+
+  while IFS='|' read -r ts proj_path; do
+    [[ -z "$proj_path" ]] && continue
+    found=false
+    local sp=""
+    for sp in "${seen_proj_paths[@]}"; do
+      if [[ "$sp" == "$proj_path" ]]; then
         found=true
         break
       fi
     done
     if [[ "$found" == "false" ]]; then
-      seen_paths+=("$path")
-      result_lines+=("${ts}|${path}")
+      seen_proj_paths+=("$proj_path")
+      result_lines+=("${ts}|${proj_path}")
       (( ${#result_lines[@]} >= count )) && break
     fi
-  done < <(tail -r "$_GMT_PROJECTS_LOG" 2>/dev/null || tac "$_GMT_PROJECTS_LOG" 2>/dev/null)
+  done <<< "$reversed"
 
-  # Write cache file (paths only, for gmt go)
-  mkdir -p "${GMT_DIR}/cache"
+  # Write cache file (proj_paths only, for gmt go)
+  [[ -d "${GMT_DIR}/cache" ]] || mkdir -p "${GMT_DIR}/cache"
   : > "$_GMT_PROJECTS_CACHE"
   for entry in "${result_lines[@]}"; do
     echo "${entry#*|}" >> "$_GMT_PROJECTS_CACHE"
@@ -67,11 +70,11 @@ _gmt_build_project_list() {
   local idx=1
   for entry in "${result_lines[@]}"; do
     local ts="${entry%%|*}"
-    local path="${entry#*|}"
-    local display_path="${path/#$HOME/~}"
+    local proj_path="${entry#*|}"
+    local display_proj_path="${proj_path/#$HOME/~}"
     local rel_time
     rel_time=$(_gmt_relative_time "$ts")
-    printf "  ${C_CYAN}[%d]${C_RESET} %-35s ${C_DIM}%s${C_RESET}\n" "$idx" "$display_path" "$rel_time"
+    printf "  ${C_CYAN}[%d]${C_RESET} %-35s ${C_DIM}%s${C_RESET}\n" "$idx" "$display_proj_path" "$rel_time"
     idx=$(( idx + 1 ))
   done
 }

@@ -1,54 +1,146 @@
 #!/usr/bin/env bash
-# onboarding.sh — First-run setup wizard
+# onboarding.sh — First-run setup wizard with arrow-key selection
 
+# ── Arrow-key selector ──
+# Usage: _gmt_select <variable_name> <option1> <option2> ...
+# Prints options with ▸ cursor, navigable with up/down arrows, Enter to confirm
+_gmt_select() {
+  local result_var="$1"
+  shift
+  local -a options=("$@")
+  local selected=0
+  local count=${#options[@]}
+
+  # Hide cursor
+  printf '\033[?25l'
+
+  # Draw initial list
+  local i
+  for (( i = 0; i < count; i++ )); do
+    if (( i == selected )); then
+      printf "    ${C_CYAN}▸ %s${C_RESET}\n" "${options[$i]}"
+    else
+      printf "      %s\n" "${options[$i]}"
+    fi
+  done
+
+  # Read keys and update
+  while true; do
+    local key=""
+    # Read a single character
+    IFS= read -rsn1 key 2>/dev/null || IFS= read -rsk1 key 2>/dev/null
+    if [[ "$key" == $'\x1b' ]]; then
+      # Escape sequence — read next two chars
+      local seq1="" seq2=""
+      IFS= read -rsn1 seq1 2>/dev/null || IFS= read -rsk1 seq1 2>/dev/null
+      IFS= read -rsn1 seq2 2>/dev/null || IFS= read -rsk1 seq2 2>/dev/null
+      key="${key}${seq1}${seq2}"
+    fi
+
+    case "$key" in
+      $'\x1b[A'|k) # Up arrow or k
+        (( selected > 0 )) && (( selected-- ))
+        ;;
+      $'\x1b[B'|j) # Down arrow or j
+        (( selected < count - 1 )) && (( selected++ ))
+        ;;
+      ""|$'\n') # Enter
+        break
+        ;;
+    esac
+
+    # Move cursor up and redraw
+    printf "\033[%dA" "$count"
+    for (( i = 0; i < count; i++ )); do
+      printf "\033[2K"  # Clear line
+      if (( i == selected )); then
+        printf "    ${C_CYAN}▸ %s${C_RESET}\n" "${options[$i]}"
+      else
+        printf "      %s\n" "${options[$i]}"
+      fi
+    done
+  done
+
+  # Show cursor
+  printf '\033[?25h'
+
+  # Set result
+  eval "${result_var}=${selected}"
+}
+
+# ── Yes/No selector ──
+_gmt_select_yn() {
+  local result_var="$1"
+  local default="${2:-y}"
+  local selected=0
+  [[ "$default" == "n" ]] && selected=1
+
+  local -a options
+  if [[ "$GMT_LANG" == "ko" ]]; then
+    options=("Yes" "No")
+  else
+    options=("Yes" "No")
+  fi
+
+  _gmt_select "$result_var" "${options[@]}"
+  # Convert: 0=yes(true), 1=no(false)
+  if eval "[[ \$$result_var == 0 ]]"; then
+    eval "${result_var}=true"
+  else
+    eval "${result_var}=false"
+  fi
+}
+
+# ── Main onboarding ──
 _gmt_onboarding() {
   local init_file="${GMT_DIR}/data/.initialized"
   [[ -f "$init_file" ]] && return 0
 
   echo ""
-  draw_box "$(printf '%s\n\n%s' "  ☀ Good Morning Terminal" "  ${L_ONBOARD_WELCOME}")"
+  printf "  ${C_BOLD}☀ Good Morning Terminal${C_RESET}\n"
+  printf "  %s\n" "${L_ONBOARD_WELCOME}"
   echo ""
 
   # Step 1: Language
-  echo "  Step 1/4 · ${L_ONBOARD_LANG_ASK}"
-  echo "    [1] 한국어"
-  echo "    [2] English"
-  echo "    [3] 日本語"
-  echo "    [4] 中文"
-  printf "    ▸ "
-  read -r lang_choice
-  case "$lang_choice" in
-    1) GMT_LANG="ko" ;;
-    2) GMT_LANG="en" ;;
-    3) GMT_LANG="ja" ;;
-    4) GMT_LANG="zh" ;;
+  echo "  ${C_DIM}Step 1/4${C_RESET}"
+  printf "  ${C_BOLD}Which language?${C_RESET}\n\n"
+  local lang_idx
+  _gmt_select lang_idx "한국어" "English" "日本語" "中文"
+  case "$lang_idx" in
+    0) GMT_LANG="ko" ;;
+    1) GMT_LANG="en" ;;
+    2) GMT_LANG="ja" ;;
+    3) GMT_LANG="zh" ;;
     *) GMT_LANG="en" ;;
   esac
 
-  # Reload language pack immediately
   _gmt_load_lang
   echo ""
 
   # Step 2: Name
-  echo "  Step 2/4 · ${L_ONBOARD_NAME_ASK}"
-  printf "  $(printf "$L_ONBOARD_NAME_DEFAULT" "$USER")\n"
+  echo "  ${C_DIM}Step 2/4${C_RESET}"
+  printf "  ${C_BOLD}${L_ONBOARD_NAME_ASK}${C_RESET}\n"
+  printf "  ${C_DIM}$(printf "$L_ONBOARD_NAME_DEFAULT" "$USER")${C_RESET}\n"
   printf "    ▸ "
   read -r user_name
   GMT_USERNAME="${user_name:-$USER}"
   echo ""
 
   # Step 3: Weather
-  echo "  Step 3/4 · ${L_ONBOARD_WEATHER_ASK} [Y/n]"
-  printf "    ▸ "
-  read -r weather_yn
-  if [[ "${weather_yn,,}" != "n" ]]; then
-    GMT_WEATHER_ENABLED=true
-    echo "  ${L_ONBOARD_WEATHER_CITY} (Enter = Seoul)"
+  echo "  ${C_DIM}Step 3/4${C_RESET}"
+  printf "  ${C_BOLD}${L_ONBOARD_WEATHER_ASK}${C_RESET}\n\n"
+  local weather_choice
+  _gmt_select_yn weather_choice "y"
+  GMT_WEATHER_ENABLED="$weather_choice"
+
+  if [[ "$GMT_WEATHER_ENABLED" == "true" ]]; then
+    echo ""
+    printf "  ${L_ONBOARD_WEATHER_CITY} ${C_DIM}(Enter = Seoul)${C_RESET}\n"
     printf "    ▸ "
     read -r city
     GMT_WEATHER_CITY="${city:-Seoul}"
   else
-    GMT_WEATHER_ENABLED=false
+    GMT_WEATHER_CITY="Seoul"
   fi
   echo ""
 
@@ -67,17 +159,18 @@ GMT_PROJECTS_COUNT=5
 GMT_ACTIVITY_WEEKS=12
 GMTEOF
 
+  # Reload config
+  source "${GMT_DIR}/config.sh"
+
   # Step 4: Done
-  echo "  Step 4/4"
+  echo "  ${C_DIM}Step 4/4${C_RESET}"
   echo ""
-  local done_msg="$(printf '%s\n%s\n\n%s\n%s\n%s\n%s' \
-    "  ${L_ONBOARD_DONE}" \
-    "  ${L_ONBOARD_DONE_DESC}" \
-    "  · gmt add \"task\"   $(echo "${L_HELP_COMMANDS[1]}" | sed 's/gmt add.*  //')" \
-    "  · gmt go 1         $(echo "${L_HELP_COMMANDS[5]}" | sed 's/gmt go.*  //')" \
-    "  · gmt config       $(echo "${L_HELP_COMMANDS[6]}" | sed 's/gmt config.*  //')" \
-    "  · gmt help         $(echo "${L_HELP_COMMANDS[7]}" | sed 's/gmt help.*  //')")"
-  draw_box "$done_msg"
+  printf "  ${C_BOLD}%s${C_RESET}\n" "$L_ONBOARD_DONE"
+  printf "  %s\n\n" "$L_ONBOARD_DONE_DESC"
+  printf "  ${C_DIM}· gmt add \"task\"${C_RESET}\n"
+  printf "  ${C_DIM}· gmt go 1${C_RESET}\n"
+  printf "  ${C_DIM}· gmt config${C_RESET}\n"
+  printf "  ${C_DIM}· gmt help${C_RESET}\n"
   echo ""
   printf "  ${C_DIM}%s${C_RESET}\n" "$L_ONBOARD_TIP"
   echo ""

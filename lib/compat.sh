@@ -34,46 +34,51 @@ _gmt_sed_inplace() {
 
 # Get current unix timestamp (portable)
 _gmt_now() {
-  date +%s
+  command date +%s
 }
 
 # Format date — returns localized date string
 # Usage: _gmt_format_date
 _gmt_format_date() {
-  local dow_num
-  dow_num=$(date +%w)  # 0=Sun, 1=Mon, ...
-  local weekday="${L_WEEKDAYS[$dow_num]}"
-  local month=$(date +%-m)
-  local day=$(date +%-d)
-  local hour=$(date +%-H)
-  local minute=$(date +%M)
+  local dow_num="" month="" day="" hour="" minute=""
+  dow_num="$(date +%w)"  # 0=Sun, 1=Mon, ...
+  month="$(date +%-m)"
+  day="$(date +%-d)"
+  hour="$(date +%-H)"
+  minute="$(date +%M)"
 
-  # Build date string from locale format
-  local date_str="${L_DATE_FMT}"
-  date_str="${date_str/\{weekday\}/$weekday}"
-  date_str="${date_str//%m/$month}"
-  date_str="${date_str//%d/$day}"
+  # zsh arrays are 1-indexed, bash arrays are 0-indexed
+  local weekday=""
+  if [[ -n "$ZSH_VERSION" ]]; then
+    weekday="${L_WEEKDAYS[$((dow_num + 1))]}"
+  else
+    weekday="${L_WEEKDAYS[$dow_num]}"
+  fi
+
+  # Build date string directly (avoid %m/%d pattern clash)
+  local date_str=""
+  if [[ "$GMT_LANG" == "ko" ]]; then
+    date_str="${month}월 ${day}일 ${weekday}요일"
+  else
+    date_str="${weekday}, ${month}/${day}"
+  fi
 
   # Build time string
-  local time_str
-  if [[ "$GMT_LANG" == "ko" ]]; then
-    if (( hour < 12 )); then
-      local display_hour=$hour
-      (( display_hour == 0 )) && display_hour=12
+  local time_str="" display_hour=""
+  if (( hour < 12 )); then
+    display_hour=$hour
+    (( display_hour == 0 )) && display_hour=12
+    if [[ "$GMT_LANG" == "ko" ]]; then
       time_str="${L_TIME_AM} ${display_hour}:${minute}"
     else
-      local display_hour=$(( hour - 12 ))
-      (( display_hour == 0 )) && display_hour=12
-      time_str="${L_TIME_PM} ${display_hour}:${minute}"
+      time_str="${display_hour}:${minute} AM"
     fi
   else
-    if (( hour < 12 )); then
-      local display_hour=$hour
-      (( display_hour == 0 )) && display_hour=12
-      time_str="${display_hour}:${minute} AM"
+    display_hour=$(( hour - 12 ))
+    (( display_hour == 0 )) && display_hour=12
+    if [[ "$GMT_LANG" == "ko" ]]; then
+      time_str="${L_TIME_PM} ${display_hour}:${minute}"
     else
-      local display_hour=$(( hour - 12 ))
-      (( display_hour == 0 )) && display_hour=12
       time_str="${display_hour}:${minute} PM"
     fi
   fi

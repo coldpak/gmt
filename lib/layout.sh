@@ -14,6 +14,27 @@ _gmt_reset_term_width() {
   unset _GMT_COLS
 }
 
+# Display width — accounts for CJK and emoji double-width characters
+# Usage: _gmt_display_width <string>
+_gmt_display_width() {
+  local str="$1"
+  printf '%s' "$str" | python3 -c "
+import sys, unicodedata
+s = sys.stdin.read()
+w = 0
+for c in s:
+    eaw = unicodedata.east_asian_width(c)
+    cp = ord(c)
+    if eaw in ('W', 'F'):
+        w += 2
+    elif cp > 0x1F000 or (0x2600 <= cp <= 0x27BF) or (0x2300 <= cp <= 0x23FF) or (0xFE00 <= cp <= 0xFE0F):
+        w += 2
+    else:
+        w += 1
+print(w)
+" 2>/dev/null || echo ${#str}
+}
+
 # Draw a horizontal line
 # Usage: draw_line [width]
 draw_line() {
@@ -29,8 +50,8 @@ draw_line() {
 #   content: newline-separated string, width auto-adjusts to terminal
 draw_box() {
   local content="$1"
-  local cols
-  cols=$(_gmt_term_width)
+  local cols=""
+  cols="$(_gmt_term_width)"
   local max_width=$(( cols - 2 ))
   local width="${2:-54}"
   (( width > max_width )) && width=$max_width
@@ -44,10 +65,11 @@ draw_box() {
 
   # Content lines
   while IFS= read -r line; do
-    # Strip ANSI for length calculation
-    local stripped
-    stripped=$(printf '%s' "$line" | sed 's/\x1b\[[0-9;]*m//g')
-    local len=${#stripped}
+    # Strip ANSI for width calculation
+    local stripped=""
+    stripped="$(printf '%s' "$line" | sed 's/\x1b\[[0-9;]*m//g')"
+    local len=""
+    len="$(_gmt_display_width "$stripped")"
     local pad=$(( inner - len ))
     (( pad < 0 )) && pad=0
     printf ' │  %b%*s│\n' "$line" $(( pad + 1 )) ""
@@ -75,10 +97,10 @@ padded() {
   printf '%*s%b\n' "$indent" "" "$*"
 }
 
-# Visible string length (strips ANSI codes)
+# Visible string length (strips ANSI codes, CJK-aware)
 # Usage: visible_len <string>
 visible_len() {
-  local stripped
-  stripped=$(printf '%s' "$1" | sed 's/\x1b\[[0-9;]*m//g')
-  echo ${#stripped}
+  local stripped=""
+  stripped="$(printf '%s' "$1" | sed 's/\x1b\[[0-9;]*m//g')"
+  _gmt_display_width "$stripped"
 }

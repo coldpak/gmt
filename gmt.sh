@@ -50,7 +50,14 @@ _gmt_render_home() {
   _gmt_reset_term_width
   echo ""
 
-  for module in ${GMT_MODULES}; do
+  # IFS split — portable across bash and zsh
+  local _gmt_ifs_bak="$IFS"
+  IFS=' '
+  local -a _gmt_mods
+  read -rA _gmt_mods <<< "$GMT_MODULES" 2>/dev/null || read -ra _gmt_mods <<< "$GMT_MODULES"
+  IFS="$_gmt_ifs_bak"
+  local module
+  for module in "${_gmt_mods[@]}"; do
     if type "_gmt_${module}_render" &>/dev/null; then
       "_gmt_${module}_render"
     fi
@@ -72,14 +79,16 @@ _gmt_help() {
 
 # ── Main command ──
 gmt() {
-  case "${1:-home}" in
+  local cmd="${1:-home}"
+  shift 2>/dev/null
+  case "$cmd" in
     home)    _gmt_render_home ;;
-    go)      _gmt_project_go "$2" ;;
-    add)     _gmt_todo_add "$2" ;;
-    done)    _gmt_todo_toggle "$2" ;;
-    rm)      _gmt_todo_remove "$2" ;;
-    goal)    _gmt_todo_goal "$2" ;;
-    list)    _gmt_todo_render ;;
+    go)      _gmt_project_go "$1" ;;
+    add)     _gmt_todo_add "$*" ;;
+    done)    _gmt_todo_toggle "$1" ;;
+    rm)      _gmt_todo_remove "$1" ;;
+    goal)    _gmt_todo_goal "$*" ;;
+    list)    _gmt_todos_render ;;
     clear)   _gmt_todo_clear ;;
     setup)
       rm -f "${GMT_DIR}/data/.initialized"
@@ -137,8 +146,9 @@ fi
 
 # ── Onboarding check & home screen ──
 if [[ ! -f "${GMT_DIR}/data/.initialized" ]]; then
-  source "${GMT_DIR}/modules/onboarding.sh"
-  _gmt_onboarding
+  if [[ -t 0 ]]; then
+    _gmt_onboarding
+  fi
 else
   _gmt_render_home
 fi

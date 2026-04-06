@@ -56,6 +56,11 @@ L_SYS_DIRTY="dirty"
 # ── activity ──
 L_ACTIVITY_TITLE="Activity"
 L_ACTIVITY_WEEKS="%d weeks"
+L_ACTIVITY_STREAK="streak"
+L_ACTIVITY_DAYS=" days"
+L_ACTIVITY_TODAY="today:"
+L_ACTIVITY_EMPTY="No activity recorded yet"
+L_ACTIVITY_HINT="Activity is tracked automatically as you use the terminal"
 
 # ── onboarding ──
 L_ONBOARD_WELCOME="Welcome! Let's set up Good Morning Terminal."
