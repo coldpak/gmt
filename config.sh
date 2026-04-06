@@ -6,6 +6,6 @@ GMT_LANG="en"
 GMT_WEATHER_ENABLED=false
 GMT_WEATHER_CITY="Seoul"
 GMT_WEATHER_CACHE_TTL=1800
-GMT_MODULES="greeting projects sysinfo todos activity"
+GMT_MODULES="greeting projects sysinfo todos activity tips"
 GMT_PROJECTS_COUNT=5
 GMT_ACTIVITY_WEEKS=12

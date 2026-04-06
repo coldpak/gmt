@@ -34,43 +34,33 @@
 ---
 
 ```
- ┌────────────────────────────────────────────────────┐
- │  ☀ Good morning, kyoungmin!                         │
- │  Sun, 4/6 · 9:23 AM                                │
- │  Seoul 18°C Clear                                   │
- └────────────────────────────────────────────────────┘
+  ☀ Good morning, kyoungmin!
+  Sun, 4/6 · 9:23 AM  │  Seoul 18°C Clear
+  ──────────────────────────────────────────────
 
- 📂 Recent Projects
-  [1] ~/projects/my-app           3h ago
-  [2] ~/projects/blog              yesterday
-  [3] ~/work/api-server            3d ago
+  📂 Recent Projects
+  [1] ~/projects/my-app              3h ago
+  [2] ~/projects/blog                yesterday
+  [3] ~/work/api-server              3d ago
 
-  Jump to a project → gmt go 1
+  git 2.43.0  node 20.11.0  python 3.12.2  │  main ✓
 
- ⚙ System
-  git 2.43.0    node 20.11.0    python 3.12.2
-  branch: main  ✓ clean         npm 10.2.4
+  🎯 Finish API endpoints
 
- 📋 Today's Goal: Finish API endpoints
+    ✓ Design DB schema
+    ○ Design login page
+    ○ Write README
 
-  [ ] Design login page
-  [✓] Design DB schema
-  [ ] Write README
+  🔥 7 days streak  ·  today: 12
 
-  gmt add "task"  ·  gmt done 1  ·  gmt goal "goal"
-
- 📊 Activity (12 weeks)
-  Mon  ░░▓▓░░▓▓▓░░░▓▓░░▓▓▓▓░░▓░░░▓▓▓░▓▓░░▓▓▓░░▓▓░░▓▓▓▓
-  Wed  ░▓▓░░▓▓▓░░░░▓▓▓░▓▓▓░░░▓▓░░▓▓▓░░▓▓▓░▓▓▓░░▓▓▓░▓▓▓▓
-  Fri  ░░▓░░░▓▓░░░░░▓▓░░▓▓░░░░▓░░░▓▓░░░▓▓░░▓▓░░░▓░░░▓▓░
-  ·····················································today
+  💡 Tip: Press Ctrl+R to search your command history
 ```
 
 ## Why?
 
 Vibe-coding tools like Cursor and Claude Code are bringing new people to the terminal every day. But a default terminal greets you with nothing but a blank prompt — cold and intimidating.
 
-**Good Morning Terminal** is a shell script dashboard that runs automatically when you open your terminal. It shows a time-aware greeting, today's tasks, recent project shortcuts, system status, and an activity log — all at a glance.
+**Good Morning Terminal** is a shell script dashboard that runs automatically when you open your terminal. It shows a time-aware greeting, today's tasks, recent project shortcuts, system status, and a daily terminal tip — all at a glance.
 
 > No dependencies. No frameworks. Pure shell. Under 100ms.
 
@@ -78,10 +68,11 @@ Vibe-coding tools like Cursor and Claude Code are bringing new people to the ter
 
 - **Time-aware Greeting** — Morning/afternoon/evening greeting + weather via [wttr.in](https://wttr.in)
 - **Recent Projects** — Auto-tracks git projects on `cd`, jump back with `gmt go 1`
-- **To-Do List** — Lightweight task management with `gmt add "task"`
-- **Daily Goal** — Set a daily goal with `gmt goal "goal"` (auto-expires at midnight)
-- **System Info** — git, node, python versions + current branch status
-- **Activity Heatmap** — GitHub-style contribution graph for your terminal activity
+- **To-Do List** — Lightweight task management with `gmt add task name`
+- **Daily Goal** — Set a daily goal with `gmt goal my goal` (auto-expires at midnight)
+- **System Info** — git, node, python versions + current branch status in one line
+- **Activity Streak** — Track your consecutive days of terminal usage
+- **Daily Tips** — A new terminal tip every day, perfect for beginners
 - **i18n** — Korean and English built-in. Community translations welcome!
 - **Blazing Fast** — ~100ms startup. Cache-first design, minimal subshells
 
@@ -109,17 +100,17 @@ echo 'source ~/.gmt/gmt.sh' >> ~/.zshrc   # or ~/.bashrc
 source ~/.zshrc
 ```
 
-An interactive onboarding wizard will start on first run.
+On first run, an interactive onboarding wizard will guide you through setup using arrow-key navigation.
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
 | `gmt` | Show home screen |
-| `gmt add "task"` | Add a task |
+| `gmt add my task` | Add a task (quotes optional) |
 | `gmt done <N>` | Toggle task completion |
 | `gmt rm <N>` | Remove a task |
-| `gmt goal "goal"` | Set today's goal |
+| `gmt goal my goal` | Set today's goal (quotes optional) |
 | `gmt go <N>` | Jump to a recent project |
 | `gmt list` | Show task list only |
 | `gmt clear` | Remove all completed tasks |
@@ -138,9 +129,8 @@ GMT_LANG="auto"              # auto | ko | en | ja | zh
 GMT_WEATHER_ENABLED=true     # Show weather
 GMT_WEATHER_CITY="Seoul"     # City name for wttr.in
 GMT_WEATHER_CACHE_TTL=1800   # Weather cache TTL in seconds
-GMT_MODULES="greeting projects sysinfo todos activity"
+GMT_MODULES="greeting projects sysinfo todos activity tips"
 GMT_PROJECTS_COUNT=5         # Number of recent projects to show
-GMT_ACTIVITY_WEEKS=12        # Weeks to show in heatmap
 ```
 
 ### Reordering Modules
@@ -151,8 +141,8 @@ Change `GMT_MODULES` to reorder or hide modules:
 # Show todos first
 GMT_MODULES="todos greeting projects"
 
-# Hide system info
-GMT_MODULES="greeting projects todos activity"
+# Minimal: just greeting and tips
+GMT_MODULES="greeting tips"
 ```
 
 ## i18n
@@ -169,13 +159,8 @@ GMT supports multiple languages. Currently bundled:
 ### Adding a Language
 
 1. Copy `lang/en.sh` to `lang/{code}.sh`
-2. Translate all `L_` variables
+2. Translate all `L_` variables (including the `L_TIPS` array)
 3. Submit a PR
-
-```bash
-cp ~/.gmt/lang/en.sh ~/.gmt/lang/fr.sh
-# Edit fr.sh with your translations
-```
 
 All user-facing strings are managed via `L_` variables. Command names (`gmt add`, etc.) are not translated.
 
@@ -187,25 +172,22 @@ All user-facing strings are managed via `L_` variables. Command names (`gmt add`
 ├── config.sh           # User configuration
 ├── install.sh          # Installer script
 ├── modules/
-│   ├── onboarding.sh   # First-run setup wizard
+│   ├── onboarding.sh   # First-run setup wizard (arrow-key selection)
 │   ├── greeting.sh     # Greeting + time + weather
 │   ├── projects.sh     # Recent projects & quick jump
-│   ├── sysinfo.sh      # System info (git, node, python)
+│   ├── sysinfo.sh      # System info (compact one-liner)
 │   ├── todos.sh        # To-do list & daily goal
-│   └── activity.sh     # Activity heatmap
+│   ├── activity.sh     # Activity streak counter
+│   └── tips.sh         # Daily terminal tips
 ├── lang/
 │   ├── ko.sh           # Korean
 │   └── en.sh           # English
 ├── lib/
 │   ├── colors.sh       # ANSI color utilities
-│   ├── layout.sh       # Box drawing & alignment
+│   ├── layout.sh       # Drawing & alignment utilities
 │   ├── cache.sh        # TTL-based file cache
 │   └── compat.sh       # Cross-platform wrappers
 ├── data/               # User data (auto-generated)
-│   ├── todos.txt
-│   ├── goal.txt
-│   ├── activity.log
-│   └── projects.log
 └── cache/              # Cached data (auto-generated)
 ```
 
@@ -216,7 +198,7 @@ Designed for **under 100ms** perceived startup time.
 - All external calls (weather API, version checks) are cached
 - Cache misses trigger background refresh — never blocks rendering
 - Minimal subshells and pipes; prefers bash builtins
-- Heatmap rendering is cached and only regenerated when activity.log changes
+- Version info cached daily, refreshed in background
 
 ## Cross-Platform
 
@@ -248,8 +230,8 @@ Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 - **Add a language** — Translate `lang/en.sh` into your language
 - **New modules** — Create a `modules/your_module.sh` with a `_gmt_yourmodule_render` function
+- **Add tips** — Add terminal tips to the `L_TIPS` array in language packs
 - **Bug reports** — Open an issue with your OS, shell version, and `gmt version` output
-- **Ideas** — Feature requests are welcome in Issues
 
 ### Development
 
@@ -259,7 +241,7 @@ git clone https://github.com/coldpak/gmt.git ~/gmt-dev
 cd ~/gmt-dev
 
 # Test without affecting your real installation
-GMT_DIR="$(pwd)" bash -c 'source gmt.sh'
+GMT_DIR="$(pwd)" zsh -c 'source gmt.sh'
 ```
 
 ## Inspiration

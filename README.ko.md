@@ -34,43 +34,33 @@
 ---
 
 ```
- ┌────────────────────────────────────────────────────┐
- │  ☀ 좋은 아침이에요, kyoungmin!                       │
- │  4월 6일 일요일 · 오전 9:23                           │
- │  서울 18°C 맑음                                      │
- └────────────────────────────────────────────────────┘
+  ☀ 좋은 아침이에요, kyoungmin!
+  4월 6일 일요일 · 오전 9:23  │  서울 18°C 맑음
+  ──────────────────────────────────────────────
 
- 📂 최근 프로젝트
-  [1] ~/projects/my-app           3시간 전
-  [2] ~/projects/blog              어제
-  [3] ~/work/api-server            3일 전
+  📂 최근 프로젝트
+  [1] ~/projects/my-app              3시간 전
+  [2] ~/projects/blog                어제
+  [3] ~/work/api-server              3일 전
 
-  번호 입력으로 바로 이동 → gmt go 1
+  git 2.43.0  node 20.11.0  python 3.12.2  │  main ✓
 
- ⚙ 시스템
-  git 2.43.0    node 20.11.0    python 3.12.2
-  branch: main  ✓ clean         npm 10.2.4
+  🎯 API 엔드포인트 완성하기
 
- 📋 오늘의 목표: API 엔드포인트 완성하기
+    ✓ DB 스키마 설계
+    ○ 로그인 페이지 디자인
+    ○ README 작성
 
-  [ ] 로그인 페이지 디자인
-  [✓] DB 스키마 설계
-  [ ] README 작성
+  🔥 7일째 연속  ·  오늘 12
 
-  gmt add "할 일"  ·  gmt done 1  ·  gmt goal "목표"
-
- 📊 활동 (12주)
-  Mon  ░░▓▓░░▓▓▓░░░▓▓░░▓▓▓▓░░▓░░░▓▓▓░▓▓░░▓▓▓░░▓▓░░▓▓▓▓
-  Wed  ░▓▓░░▓▓▓░░░░▓▓▓░▓▓▓░░░▓▓░░▓▓▓░░▓▓▓░▓▓▓░░▓▓▓░▓▓▓▓
-  Fri  ░░▓░░░▓▓░░░░░▓▓░░▓▓░░░░▓░░░▓▓░░░▓▓░░▓▓░░░▓░░░▓▓░
-  ·····················································today
+  💡 팁: Ctrl+R 을 누르면 명령어 히스토리를 검색할 수 있어요
 ```
 
 ## 왜 만들었나요?
 
 바이브코딩(Cursor, Claude Code 등)이 유행하면서 터미널을 처음 접하는 사람들이 늘고 있습니다. 하지만 기본 터미널은 빈 프롬프트만 덩그러니 보여줘서 낯설고 차가운 느낌이죠.
 
-**Good Morning Terminal**은 터미널을 열 때마다 자동 실행되는 쉘 스크립트 대시보드입니다. 시간에 맞는 인사말, 오늘 할 일, 최근 프로젝트 바로가기, 시스템 상태, 활동 로그를 한눈에 보여줍니다.
+**Good Morning Terminal**은 터미널을 열 때마다 자동 실행되는 쉘 스크립트 대시보드입니다. 시간에 맞는 인사말, 오늘 할 일, 최근 프로젝트 바로가기, 시스템 상태, 매일 바뀌는 터미널 팁을 한눈에 보여줍니다.
 
 > 외부 의존성 없음. 프레임워크 없음. 순수 쉘 스크립트. 100ms 이내.
 
@@ -78,10 +68,11 @@
 
 - **시간대별 인사말** — 아침/오후/저녁 인사 + [wttr.in](https://wttr.in) 날씨
 - **최근 프로젝트** — `cd` 할 때마다 git 프로젝트 자동 추적, `gmt go 1`로 바로 이동
-- **할 일 관리** — `gmt add "할 일"`로 간단한 태스크 관리
-- **오늘의 목표** — `gmt goal "목표"`로 설정 (자정에 자동 만료)
-- **시스템 정보** — git, node, python 버전 + 현재 브랜치 상태
-- **활동 히트맵** — GitHub 잔디밭 스타일의 터미널 활동 기록
+- **할 일 관리** — `gmt add 할 일 내용`으로 간단한 태스크 관리 (따옴표 없이도 OK)
+- **오늘의 목표** — `gmt goal 목표`로 설정 (자정에 자동 만료)
+- **시스템 정보** — git, node, python 버전 + 현재 브랜치 상태 (한 줄 요약)
+- **활동 연속 기록** — 터미널 사용 연속 일수 추적
+- **오늘의 팁** — 매일 바뀌는 터미널 사용 팁 (초보자를 위한)
 - **다국어 지원** — 한국어, English 기본 제공. 커뮤니티 번역 환영!
 - **빠른 속도** — ~100ms 로딩. 캐시 기반 설계, 서브쉘 최소화
 
@@ -109,17 +100,17 @@ echo 'source ~/.gmt/gmt.sh' >> ~/.zshrc   # bash라면 ~/.bashrc
 source ~/.zshrc
 ```
 
-첫 실행 시 온보딩 위저드가 자동으로 시작됩니다.
+첫 실행 시 화살표 키로 조작하는 온보딩 위저드가 자동으로 시작됩니다.
 
 ## 명령어
 
 | 명령어 | 설명 |
 |--------|------|
 | `gmt` | 홈 화면 보기 |
-| `gmt add "할 일"` | 할 일 추가 |
+| `gmt add 할 일 내용` | 할 일 추가 (따옴표 없이도 OK) |
 | `gmt done <N>` | 완료/미완료 토글 |
 | `gmt rm <N>` | 할 일 삭제 |
-| `gmt goal "목표"` | 오늘의 목표 설정 |
+| `gmt goal 목표` | 오늘의 목표 설정 (따옴표 없이도 OK) |
 | `gmt go <N>` | 최근 프로젝트로 이동 |
 | `gmt list` | 할 일 목록만 표시 |
 | `gmt clear` | 완료된 항목 일괄 삭제 |
@@ -138,9 +129,8 @@ GMT_LANG="auto"              # auto | ko | en | ja | zh
 GMT_WEATHER_ENABLED=true     # 날씨 표시 여부
 GMT_WEATHER_CITY="Seoul"     # 도시명 (wttr.in 기준)
 GMT_WEATHER_CACHE_TTL=1800   # 날씨 캐시 TTL (초)
-GMT_MODULES="greeting projects sysinfo todos activity"
+GMT_MODULES="greeting projects sysinfo todos activity tips"
 GMT_PROJECTS_COUNT=5         # 표시할 최근 프로젝트 수
-GMT_ACTIVITY_WEEKS=12        # 잔디밭 표시 주 수
 ```
 
 ### 모듈 순서 변경
@@ -151,8 +141,8 @@ GMT_ACTIVITY_WEEKS=12        # 잔디밭 표시 주 수
 # 할 일을 먼저 보고 싶다면
 GMT_MODULES="todos greeting projects"
 
-# 시스템 정보 숨기기
-GMT_MODULES="greeting projects todos activity"
+# 미니멀: 인사말과 팁만
+GMT_MODULES="greeting tips"
 ```
 
 ## 다국어 지원
@@ -167,13 +157,8 @@ GMT_MODULES="greeting projects todos activity"
 ### 새 언어 추가하기
 
 1. `lang/en.sh`를 복사하여 `lang/{code}.sh` 생성
-2. 모든 `L_` 변수를 번역
+2. 모든 `L_` 변수를 번역 (`L_TIPS` 배열 포함)
 3. PR 제출!
-
-```bash
-cp ~/.gmt/lang/en.sh ~/.gmt/lang/fr.sh
-# fr.sh를 열어 번역하세요
-```
 
 모든 사용자 노출 문자열은 `L_` 변수로 관리됩니다. 명령어(`gmt add` 등)는 번역하지 않습니다.
 
@@ -185,25 +170,22 @@ cp ~/.gmt/lang/en.sh ~/.gmt/lang/fr.sh
 ├── config.sh           # 사용자 설정
 ├── install.sh          # 설치 스크립트
 ├── modules/
-│   ├── onboarding.sh   # 첫 실행 온보딩
+│   ├── onboarding.sh   # 첫 실행 온보딩 (화살표 키 선택)
 │   ├── greeting.sh     # 인사말 + 시간 + 날씨
 │   ├── projects.sh     # 최근 프로젝트 & 빠른 이동
-│   ├── sysinfo.sh      # 시스템 정보 (git, node, python)
+│   ├── sysinfo.sh      # 시스템 정보 (한 줄 요약)
 │   ├── todos.sh        # 할 일 / 오늘의 목표
-│   └── activity.sh     # 활동 히트맵
+│   ├── activity.sh     # 활동 연속 기록
+│   └── tips.sh         # 오늘의 터미널 팁
 ├── lang/
 │   ├── ko.sh           # 한국어
 │   └── en.sh           # 영어
 ├── lib/
 │   ├── colors.sh       # ANSI 색상 유틸리티
-│   ├── layout.sh       # 박스 그리기 & 정렬
+│   ├── layout.sh       # 그리기 & 정렬 유틸리티
 │   ├── cache.sh        # TTL 기반 파일 캐시
 │   └── compat.sh       # 크로스 플랫폼 래퍼
 ├── data/               # 사용자 데이터 (자동 생성)
-│   ├── todos.txt
-│   ├── goal.txt
-│   ├── activity.log
-│   └── projects.log
 └── cache/              # 캐시 데이터 (자동 생성)
 ```
 
@@ -214,7 +196,7 @@ cp ~/.gmt/lang/en.sh ~/.gmt/lang/fr.sh
 - 모든 외부 호출(날씨 API, 버전 체크)은 캐시 사용
 - 캐시 미스 시 백그라운드에서 갱신 — 렌더링을 블로킹하지 않음
 - 서브쉘/파이프 최소화, bash 빌트인 우선 사용
-- 잔디밭 렌더링 결과 캐시 (activity.log 변경 시에만 재생성)
+- 버전 정보는 하루 1회 캐시, 백그라운드 갱신
 
 ## 크로스 플랫폼
 
@@ -246,8 +228,8 @@ rm -rf ~/.gmt
 
 - **언어 추가** — `lang/en.sh`를 번역해주세요
 - **새 모듈** — `modules/your_module.sh`에 `_gmt_yourmodule_render` 함수를 만들어주세요
+- **팁 추가** — 언어팩의 `L_TIPS` 배열에 터미널 팁을 추가해주세요
 - **버그 리포트** — OS, 쉘 버전, `gmt version` 출력과 함께 이슈를 열어주세요
-- **아이디어** — 기능 제안은 Issues에서 환영합니다
 
 ### 개발 환경
 
@@ -257,7 +239,7 @@ git clone https://github.com/coldpak/gmt.git ~/gmt-dev
 cd ~/gmt-dev
 
 # 실제 설치에 영향 없이 테스트
-GMT_DIR="$(pwd)" bash -c 'source gmt.sh'
+GMT_DIR="$(pwd)" zsh -c 'source gmt.sh'
 ```
 
 ## 영감

@@ -86,6 +86,26 @@ L_HELP_COMMANDS=(
   "gmt help         이 도움말"
 )
 
+# ── tips ──
+L_TIPS_TITLE="팁"
+L_TIPS=(
+  "cd - 를 입력하면 이전 디렉토리로 돌아가요"
+  "Tab 키로 파일/폴더 이름을 자동완성할 수 있어요"
+  "Ctrl+R 을 누르면 명령어 히스토리를 검색할 수 있어요"
+  "mkdir -p a/b/c 로 중첩 폴더를 한번에 만들 수 있어요"
+  "!! 를 입력하면 마지막 명령어를 다시 실행해요"
+  "Ctrl+A 는 줄 맨 앞으로, Ctrl+E 는 줄 맨 뒤로 이동해요"
+  "ls -la 로 숨김 파일까지 자세히 볼 수 있어요"
+  "cat file1 file2 > merged 로 파일을 합칠 수 있어요"
+  "&& 로 명령어를 연결해요: git add . && git commit"
+  "Ctrl+C 로 실행 중인 명령어를 취소할 수 있어요"
+  "Ctrl+L 로 터미널 화면을 깨끗하게 지울 수 있어요"
+  "history 를 입력하면 최근 명령어를 볼 수 있어요"
+  "pwd 로 현재 디렉토리 경로를 확인할 수 있어요"
+  "mv 로 파일 이름을 바꿀 수 있어요: mv old.txt new.txt"
+  "위쪽 화살표로 이전 명령어를 불러올 수 있어요"
+)
+
 # ── errors ──
 L_ERR_UNKNOWN_CMD="알 수 없는 명령이에요. gmt help 를 입력해보세요."
 L_ERR_NO_ARG="내용을 입력해주세요."

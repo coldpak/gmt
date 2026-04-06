@@ -86,6 +86,26 @@ L_HELP_COMMANDS=(
   "gmt help         Show this help"
 )
 
+# ── tips ──
+L_TIPS_TITLE="Tip"
+L_TIPS=(
+  "cd - takes you back to the previous directory"
+  "Use Tab to autocomplete file and directory names"
+  "Press Ctrl+R to search your command history"
+  "mkdir -p path/to/dir creates nested directories at once"
+  "Use !! to repeat the last command"
+  "Ctrl+A moves to the start of the line, Ctrl+E to the end"
+  "ls -la shows hidden files with details"
+  "cat file1 file2 > combined merges files together"
+  "Use && to chain commands: git add . && git commit"
+  "Ctrl+C cancels a running command"
+  "Ctrl+L clears the terminal (same as running clear)"
+  "history shows your recent commands"
+  "pwd shows your current directory"
+  "mv can rename files: mv old.txt new.txt"
+  "Use up arrow to cycle through previous commands"
+)
+
 # ── errors ──
 L_ERR_UNKNOWN_CMD="Unknown command. Try: gmt help"
 L_ERR_NO_ARG="Please provide content."
