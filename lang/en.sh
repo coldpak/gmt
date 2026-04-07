@@ -22,7 +22,7 @@ L_WEATHER_UNAVAILABLE="Weather unavailable"
 L_TODO_TITLE="To-Do"
 L_TODO_GOAL="Today's Goal"
 L_TODO_EMPTY="No tasks yet!"
-L_TODO_HINT='Try: gmt add "your first task"'
+L_TODO_HINT='Try: gm add "your first task"'
 L_TODO_DONE_TOGGLE="Marked as done"
 L_TODO_UNDONE_TOGGLE="Marked as not done"
 L_TODO_REMOVED="Removed"
@@ -30,13 +30,13 @@ L_TODO_CLEARED="Cleared all completed tasks"
 L_TODO_ADDED="Added"
 L_TODO_GOAL_SET="Goal set for today"
 L_TODO_GOAL_EMPTY="No goal set for today"
-L_TODO_CMD_HINT="gmt add \"task\"  ·  gmt done 1  ·  gmt goal \"goal\""
+L_TODO_CMD_HINT="gm add \"task\"  ·  gm done 1  ·  gm goal \"goal\""
 
 # ── projects ──
 L_PROJ_TITLE="Recent Projects"
 L_PROJ_EMPTY="No projects visited yet"
 L_PROJ_HINT="cd into a git project folder to start tracking"
-L_PROJ_GO_HINT="Jump to a project → gmt go 1"
+L_PROJ_GO_HINT="Jump to a project → gm go 1"
 L_PROJ_NOT_FOUND="Project not found"
 
 # ── relative time ──
@@ -70,20 +70,20 @@ L_ONBOARD_WEATHER_ASK="Show weather?"
 L_ONBOARD_WEATHER_CITY="Which city's weather?"
 L_ONBOARD_DONE="All set!"
 L_ONBOARD_DONE_DESC="This screen will greet you every time you open a terminal."
-L_ONBOARD_TIP="You can change settings anytime with gmt config."
+L_ONBOARD_TIP="You can change settings anytime with gm config."
 L_ONBOARD_LANG_ASK="Which language would you like?"
 
 # ── help ──
 L_HELP_HEADER="Usage"
 L_HELP_COMMANDS=(
-  "gmt              Show home screen"
-  "gmt add \"task\"   Add a task"
-  "gmt done 1       Toggle completion"
-  "gmt rm 1         Remove a task"
-  "gmt goal \"goal\"  Set today's goal"
-  "gmt go 1         Jump to project"
-  "gmt config       Edit settings"
-  "gmt help         Show this help"
+  "gm              Show home screen"
+  "gm add \"task\"   Add a task"
+  "gm done 1       Toggle completion"
+  "gm rm 1         Remove a task"
+  "gm goal \"goal\"  Set today's goal"
+  "gm go 1         Jump to project"
+  "gm config       Edit settings"
+  "gm help         Show this help"
 )
 
 # ── tips ──
@@ -107,6 +107,6 @@ L_TIPS=(
 )
 
 # ── errors ──
-L_ERR_UNKNOWN_CMD="Unknown command. Try: gmt help"
+L_ERR_UNKNOWN_CMD="Unknown command. Try: gm help"
 L_ERR_NO_ARG="Please provide content."
 L_ERR_INVALID_NUM="Please enter a valid number."

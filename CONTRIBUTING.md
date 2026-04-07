@@ -11,7 +11,7 @@ The easiest way to contribute is by adding a new language translation.
    cp lang/en.sh lang/your_lang_code.sh
    ```
 2. Translate all `L_` variables in the new file
-3. Keep command names (`gmt add`, `gmt go`, etc.) in English — these are not translated
+3. Keep command names (`gm add`, `gm go`, etc.) in English — these are not translated
 4. Test with `GMT_LANG="your_lang_code" GMT_DIR="$(pwd)" bash -c 'source gmt.sh'`
 5. Submit a PR
 
@@ -52,5 +52,5 @@ GMT_DIR="$(pwd)" bash -c 'source gmt.sh'
 Please include:
 - OS and version (`uname -a`)
 - Shell and version (`$SHELL --version`)
-- GMT version (`gmt version`)
+- GMT version (`gm version`)
 - Steps to reproduce

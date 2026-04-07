@@ -78,7 +78,7 @@ _gmt_help() {
 }
 
 # ── Main command ──
-gmt() {
+gm() {
   local cmd="${1:-home}"
   shift 2>/dev/null
   case "$cmd" in
@@ -96,7 +96,7 @@ gmt() {
       ;;
     config)  ${EDITOR:-vi} "${GMT_DIR}/config.sh" ;;
     help)    _gmt_help ;;
-    version) echo "gmt v${GMT_VERSION}" ;;
+    version) echo "gm v${GMT_VERSION}" ;;
     *)       echo "  $L_ERR_UNKNOWN_CMD" ;;
   esac
 }

@@ -72,8 +72,8 @@ _gmt_build_project_list() {
     local ts="${entry%%|*}"
     local proj_path="${entry#*|}"
     local display_proj_path="${proj_path/#$HOME/~}"
-    local rel_time
-    rel_time=$(_gmt_relative_time "$ts")
+    local rel_time=""
+    rel_time="$(_gmt_relative_time "$ts")"
     printf "  ${C_CYAN}[%d]${C_RESET} %-35s ${C_DIM}%s${C_RESET}\n" "$idx" "$display_proj_path" "$rel_time"
     idx=$(( idx + 1 ))
   done

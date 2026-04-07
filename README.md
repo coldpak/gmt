@@ -67,9 +67,9 @@ Vibe-coding tools like Cursor and Claude Code are bringing new people to the ter
 ## Features
 
 - **Time-aware Greeting** — Morning/afternoon/evening greeting + weather via [wttr.in](https://wttr.in)
-- **Recent Projects** — Auto-tracks git projects on `cd`, jump back with `gmt go 1`
-- **To-Do List** — Lightweight task management with `gmt add task name`
-- **Daily Goal** — Set a daily goal with `gmt goal my goal` (auto-expires at midnight)
+- **Recent Projects** — Auto-tracks git projects on `cd`, jump back with `gm go 1`
+- **To-Do List** — Lightweight task management with `gm add task name`
+- **Daily Goal** — Set a daily goal with `gm goal my goal` (auto-expires at midnight)
 - **System Info** — git, node, python versions + current branch status in one line
 - **Activity Streak** — Track your consecutive days of terminal usage
 - **Daily Tips** — A new terminal tip every day, perfect for beginners
@@ -106,22 +106,22 @@ On first run, an interactive onboarding wizard will guide you through setup usin
 
 | Command | Description |
 |---------|-------------|
-| `gmt` | Show home screen |
-| `gmt add my task` | Add a task (quotes optional) |
-| `gmt done <N>` | Toggle task completion |
-| `gmt rm <N>` | Remove a task |
-| `gmt goal my goal` | Set today's goal (quotes optional) |
-| `gmt go <N>` | Jump to a recent project |
-| `gmt list` | Show task list only |
-| `gmt clear` | Remove all completed tasks |
-| `gmt config` | Edit settings |
-| `gmt setup` | Re-run onboarding wizard |
-| `gmt help` | Show help |
-| `gmt version` | Show version |
+| `gm` | Show home screen |
+| `gm add my task` | Add a task (quotes optional) |
+| `gm done <N>` | Toggle task completion |
+| `gm rm <N>` | Remove a task |
+| `gm goal my goal` | Set today's goal (quotes optional) |
+| `gm go <N>` | Jump to a recent project |
+| `gm list` | Show task list only |
+| `gm clear` | Remove all completed tasks |
+| `gm config` | Edit settings |
+| `gm setup` | Re-run onboarding wizard |
+| `gm help` | Show help |
+| `gm version` | Show version |
 
 ## Configuration
 
-Edit `~/.gmt/config.sh` directly or run `gmt config`.
+Edit `~/.gmt/config.sh` directly or run `gm config`.
 
 ```bash
 GMT_USERNAME=""              # Leave empty to use $USER
@@ -162,7 +162,7 @@ GMT supports multiple languages. Currently bundled:
 2. Translate all `L_` variables (including the `L_TIPS` array)
 3. Submit a PR
 
-All user-facing strings are managed via `L_` variables. Command names (`gmt add`, etc.) are not translated.
+All user-facing strings are managed via `L_` variables. Command names (`gm add`, etc.) are not translated.
 
 ## Project Structure
 
@@ -231,7 +231,7 @@ Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 - **Add a language** — Translate `lang/en.sh` into your language
 - **New modules** — Create a `modules/your_module.sh` with a `_gmt_yourmodule_render` function
 - **Add tips** — Add terminal tips to the `L_TIPS` array in language packs
-- **Bug reports** — Open an issue with your OS, shell version, and `gmt version` output
+- **Bug reports** — Open an issue with your OS, shell version, and `gm version` output
 
 ### Development
 

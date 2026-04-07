@@ -22,7 +22,7 @@ L_WEATHER_UNAVAILABLE="날씨 정보 없음"
 L_TODO_TITLE="할 일"
 L_TODO_GOAL="오늘의 목표"
 L_TODO_EMPTY="아직 할 일이 없어요!"
-L_TODO_HINT='gmt add "첫 번째 할 일" 로 추가해보세요'
+L_TODO_HINT='gm add "첫 번째 할 일" 로 추가해보세요'
 L_TODO_DONE_TOGGLE="완료 처리했어요"
 L_TODO_UNDONE_TOGGLE="미완료로 되돌렸어요"
 L_TODO_REMOVED="삭제했어요"
@@ -30,13 +30,13 @@ L_TODO_CLEARED="완료된 항목을 모두 삭제했어요"
 L_TODO_ADDED="추가했어요"
 L_TODO_GOAL_SET="오늘의 목표를 설정했어요"
 L_TODO_GOAL_EMPTY="아직 오늘의 목표가 없어요"
-L_TODO_CMD_HINT="gmt add \"할 일\"  ·  gmt done 1  ·  gmt goal \"목표\""
+L_TODO_CMD_HINT="gm add \"할 일\"  ·  gm done 1  ·  gm goal \"목표\""
 
 # ── projects ──
 L_PROJ_TITLE="최근 프로젝트"
 L_PROJ_EMPTY="아직 방문한 프로젝트가 없어요"
 L_PROJ_HINT="git 프로젝트 폴더로 cd 하면 자동으로 기록돼요"
-L_PROJ_GO_HINT="번호 입력으로 바로 이동 → gmt go 1"
+L_PROJ_GO_HINT="번호 입력으로 바로 이동 → gm go 1"
 L_PROJ_NOT_FOUND="프로젝트를 찾을 수 없어요"
 
 # ── relative time ──
@@ -70,20 +70,20 @@ L_ONBOARD_WEATHER_ASK="날씨를 보여드릴까요?"
 L_ONBOARD_WEATHER_CITY="어느 도시의 날씨를 보여드릴까요?"
 L_ONBOARD_DONE="설정이 끝났어요!"
 L_ONBOARD_DONE_DESC="터미널을 열 때마다 이 화면이 반겨줄 거예요."
-L_ONBOARD_TIP="언제든 gmt config 로 설정을 바꿀 수 있어요."
+L_ONBOARD_TIP="언제든 gm config 로 설정을 바꿀 수 있어요."
 L_ONBOARD_LANG_ASK="어떤 언어를 사용할까요?"
 
 # ── help ──
 L_HELP_HEADER="사용법"
 L_HELP_COMMANDS=(
-  "gmt              홈 화면 보기"
-  "gmt add \"할 일\"  할 일 추가"
-  "gmt done 1       완료 처리 (토글)"
-  "gmt rm 1         삭제"
-  "gmt goal \"목표\"  오늘의 목표 설정"
-  "gmt go 1         프로젝트로 이동"
-  "gmt config       설정 편집"
-  "gmt help         이 도움말"
+  "gm               홈 화면 보기"
+  "gm add \"할 일\"  할 일 추가"
+  "gm done 1       완료 처리 (토글)"
+  "gm rm 1         삭제"
+  "gm goal \"목표\"  오늘의 목표 설정"
+  "gm go 1         프로젝트로 이동"
+  "gm config       설정 편집"
+  "gm help         이 도움말"
 )
 
 # ── tips ──
@@ -107,6 +107,6 @@ L_TIPS=(
 )
 
 # ── errors ──
-L_ERR_UNKNOWN_CMD="알 수 없는 명령이에요. gmt help 를 입력해보세요."
+L_ERR_UNKNOWN_CMD="알 수 없는 명령이에요. gm help 를 입력해보세요."
 L_ERR_NO_ARG="내용을 입력해주세요."
 L_ERR_INVALID_NUM="올바른 번호를 입력해주세요."
