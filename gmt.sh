@@ -78,6 +78,7 @@ _gmt_help() {
 }
 
 # ── Main command ──
+unalias gm 2>/dev/null
 gm() {
   local cmd="${1:-home}"
   shift 2>/dev/null
