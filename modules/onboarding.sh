@@ -154,9 +154,10 @@ GMT_LANG="${GMT_LANG}"
 GMT_WEATHER_ENABLED=${GMT_WEATHER_ENABLED}
 GMT_WEATHER_CITY="${GMT_WEATHER_CITY}"
 GMT_WEATHER_CACHE_TTL=1800
-GMT_MODULES="greeting projects sysinfo todos activity"
+GMT_MODULES="greeting projects sysinfo todos activity tips"
 GMT_PROJECTS_COUNT=5
 GMT_ACTIVITY_WEEKS=12
+GMT_SAFE_ENABLED=true
 GMTEOF
 
   # Reload config

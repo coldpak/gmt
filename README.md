@@ -73,6 +73,10 @@ Vibe-coding tools like Cursor and Claude Code are bringing new people to the ter
 - **System Info** — git, node, python versions + current branch status in one line
 - **Activity Streak** — Track your consecutive days of terminal usage
 - **Daily Tips** — A new terminal tip every day, perfect for beginners
+- **Command Dictionary** — Browse useful commands by category with `gm cmd`
+- **Command Explainer** — Break down any command and its flags with `gm explain`
+- **Keyboard Shortcuts** — Quick-reference cheatsheet with `gm keys`
+- **Safety Net** — Warns before dangerous commands like `rm -rf` or `git push -f`
 - **i18n** — Korean and English built-in. Community translations welcome!
 - **Blazing Fast** — ~100ms startup. Cache-first design, minimal subshells
 
@@ -114,6 +118,11 @@ On first run, an interactive onboarding wizard will guide you through setup usin
 | `gm go <N>` | Jump to a recent project |
 | `gm list` | Show task list only |
 | `gm clear` | Remove all completed tasks |
+| `gm cmd` | Browse command dictionary by category |
+| `gm cmd <N>` | Show commands in category N |
+| `gm cmd <keyword>` | Search commands by keyword |
+| `gm explain <command>` | Explain a command and its flags |
+| `gm keys` | Show keyboard shortcuts cheatsheet |
 | `gm config` | Edit settings |
 | `gm setup` | Re-run onboarding wizard |
 | `gm help` | Show help |
@@ -129,7 +138,8 @@ GMT_LANG="auto"              # auto | ko | en | ja | zh
 GMT_WEATHER_ENABLED=true     # Show weather
 GMT_WEATHER_CITY="Seoul"     # City name for wttr.in
 GMT_WEATHER_CACHE_TTL=1800   # Weather cache TTL in seconds
-GMT_MODULES="greeting projects sysinfo todos activity tips"
+GMT_MODULES="greeting projects sysinfo todos activity tips"  # Reorder or remove as needed
+GMT_SAFE_ENABLED=true        # Safety net for dangerous commands
 GMT_PROJECTS_COUNT=5         # Number of recent projects to show
 ```
 
@@ -178,7 +188,11 @@ All user-facing strings are managed via `L_` variables. Command names (`gm add`,
 │   ├── sysinfo.sh      # System info (compact one-liner)
 │   ├── todos.sh        # To-do list & daily goal
 │   ├── activity.sh     # Activity streak counter
-│   └── tips.sh         # Daily terminal tips
+│   ├── tips.sh         # Daily terminal tips
+│   ├── cmddict.sh      # Command dictionary
+│   ├── explain.sh      # Command explainer
+│   ├── keys.sh         # Keyboard shortcuts cheatsheet
+│   └── safe.sh         # Safety net for dangerous commands
 ├── lang/
 │   ├── ko.sh           # Korean
 │   └── en.sh           # English
@@ -231,6 +245,7 @@ Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 - **Add a language** — Translate `lang/en.sh` into your language
 - **New modules** — Create a `modules/your_module.sh` with a `_gmt_yourmodule_render` function
 - **Add tips** — Add terminal tips to the `L_TIPS` array in language packs
+- **Add commands** — Add entries to `L_CMD_ITEMS_*` and `L_EXPLAIN_DATA` arrays in language packs
 - **Bug reports** — Open an issue with your OS, shell version, and `gm version` output
 
 ### Development
