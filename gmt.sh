@@ -91,8 +91,11 @@ gm() {
     goal)    _gmt_todo_goal "$*" ;;
     list)    _gmt_todos_render ;;
     clear)   _gmt_todo_clear ;;
+    cmd)     _gmt_cmddict_dispatch "$1" ;;
+    explain) _gmt_explain_command "$*" ;;
+    keys)    _gmt_keys_show ;;
     setup)
-      rm -f "${GMT_DIR}/data/.initialized"
+      command rm -f "${GMT_DIR}/data/.initialized"
       _gmt_onboarding
       ;;
     config)  ${EDITOR:-vi} "${GMT_DIR}/config.sh" ;;
